@@ -1,0 +1,25 @@
+:root {
+  font-size: 100%;
+  /* --color-background: aquamarine; */
+  --color-background: #f8f9fc;
+  --primary-color: #3c737d;
+  --secundary-color: #34cb79;
+  --title-color: #322153;
+  --text-color: #6c6c80;
+  --table-background: rgb(223, 251, 252);
+}
+
+body,
+input,
+button,
+textarea {
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing: border-box;
+}

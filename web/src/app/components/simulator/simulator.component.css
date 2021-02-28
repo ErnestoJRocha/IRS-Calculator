@@ -1,0 +1,14 @@
+:host {
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+}
+
+.table {
+  background-color: var(--table-background);
+  /* width: 80%; */
+}
+
+.buttons {
+  /* flex-grow: 1; */
+}

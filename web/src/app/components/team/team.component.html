@@ -1,0 +1,38 @@
+<div class="jumbotron text-center">
+  <h1>Equipa</h1>
+  <div class="container">
+    <table class="table">
+      <tr>
+        <td></td>
+        <td></td>
+        <td>Name</td>
+        <td>Position</td>
+        <td>Salary</td>
+        <td>Despesas</td>
+        <td>Prémio</td>
+      </tr>
+      <tr *ngFor="let colaborador of colaboradores">
+        <td>{{ colaborador.colaboradorid }}</td>
+        <td>
+          <img
+            width="30px"
+            src="{{
+              'https://ipc.digital/wp-content/uploads/2016/07/icon-user-default.png'
+            }}"
+            class="rounded"
+            alt="img"
+          />
+          <!-- Add image
+            this.colaboradores[user.colaboradorid - 1].avatar_Url
+                ? this.colaboradores[user.colaboradorid - 1].avatar_Url
+                :  -->
+        </td>
+        <td>{{ this.NameSplitUpper(colaborador.nome) }}</td>
+        <td>{{ colaborador.nivel }}</td>
+        <td>{{ colaborador.vencimento }}</td>
+        <td>{{ colaborador.despesas }}</td>
+        <td>{{ colaborador.premio }}</td>
+      </tr>
+    </table>
+  </div>
+</div>

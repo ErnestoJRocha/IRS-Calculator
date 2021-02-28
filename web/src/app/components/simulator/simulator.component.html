@@ -1,0 +1,642 @@
+<div class="d-flex flex-column align-items-center m-5">
+  <h1>Simulador</h1>
+  <div class="container p-3">
+    <!-- d-flex align-items-center -->
+
+    <!-- Name -->
+    <div class="">
+      <div class="d-flex my-3">
+        <h4 class="mx-5">Syoner</h4>
+        <input type="text" name="Colaborador" [(ngModel)]="colaborador" />
+        <p-dropdown
+          [options]="colaboradores"
+          [(ngModel)]="selectedColaborador"
+          placeholder="Select User"
+          optionLabel="nome"
+          [showClear]="true"
+          (ngModelChange)="colaboradorSelected(); getIrs()"
+        ></p-dropdown>
+        <!-- <p>
+          {{ colaborador ? colaborador : "none" }}
+
+          {{ selectedColaborador ? selectedColaborador.nome : "none" }} ===>
+          id:{{
+            selectedColaborador ? selectedColaborador.colaboradorid : "none"
+          }}
+        </p> -->
+      </div>
+      <!-- END Name -->
+
+      <!-- IRS Buttons -->
+      <div class="">
+        <div class="d-flex my-3">
+          <h4 class="mx-5">Area</h4>
+
+          <p-dropdown
+            [options]="areas"
+            [(ngModel)]="selectedArea"
+            placeholder="Select Area"
+            optionLabel="name"
+            [showClear]="true"
+            (ngModelChange)="nivelFilter()"
+          ></p-dropdown>
+          <!-- <p>
+          {{ selectedArea ? selectedArea.name : "none" }} ===> id:{{
+            selectedArea ? selectedArea.id : "none"
+          }}
+        </p> -->
+        </div>
+      </div>
+      <div class="">
+        <div>
+          <div class="d-flex my-3">
+            <h4 class="mx-5">Nivel</h4>
+            <p-dropdown
+              [options]="areaNivels"
+              [(ngModel)]="selectedNivel"
+              placeholder="Select Nivel"
+              optionLabel="desc"
+              [showClear]="true"
+              (ngModelChange)="nivelSelected()"
+            ></p-dropdown>
+            <!-- <p>
+              {{ selectedNivel ? selectedNivel.desc : "none" }}
+              ===> id:{{ selectedNivel ? selectedNivel.nivelid : "none" }}
+            </p> -->
+          </div>
+        </div>
+        <div class="">
+          <div class="d-flex my-3">
+            <h4 class="mx-5">Marital Status</h4>
+            <p-dropdown
+              [options]="maritalStates"
+              [(ngModel)]="selectedMaritalStatus"
+              placeholder="Select Status"
+              optionLabel="status"
+              [showClear]="true"
+              (ngModelChange)="getIrs()"
+            ></p-dropdown>
+            <!-- <p>
+              {{
+                selectedMaritalStatus ? selectedMaritalStatus.status : "none"
+              }}
+              ===> id:{{
+                selectedMaritalStatus ? selectedMaritalStatus.id : "none"
+              }}
+            </p> -->
+          </div>
+        </div>
+        <div class="">
+          <div class="d-flex my-3">
+            <h4 class="mx-5">Nº Dependentes</h4>
+            <p-dropdown
+              [options]="dependents"
+              [(ngModel)]="selectedDependents"
+              placeholder="Select Dependents"
+              optionLabel="number"
+              [showClear]="true"
+              (ngModelChange)="getIrs()"
+            ></p-dropdown>
+            <!-- <p>
+              {{ selectedDependents ? selectedDependents.number : "none" }} ===>
+              id:{{ selectedDependents ? selectedDependents.id : "none" }}
+            </p> -->
+          </div>
+        </div>
+      </div>
+      <div>
+        <!-- IRS Calculator -->
+        <div class="row">
+          <div class="col-sm-12 col-md-10 col-xl-8">
+            <h2>IRS</h2>
+            <table class="table table">
+              <tr>
+                <th>
+                  <label>Base Salary:</label>
+                </th>
+
+                <th>
+                  <input
+                    type="text"
+                    name="baseSalary"
+                    [(ngModel)]="baseSalary"
+                    (ngModelChange)="getIrs(); calcs()"
+                  />
+                </th>
+                <th>
+                  <label>IRS:</label>
+                </th>
+                <th>
+                  {{ (irs ? irs : 0) | percent: "1.2" }}
+                </th>
+              </tr>
+            </table>
+          </div>
+          <br />
+          <div class="col-sm-12 col-md-10 col-xl-8">
+            <!-- <h2 class="first">Calculadora IRS</h2> -->
+
+            <!-- IRS Calc -->
+
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th></th>
+                  <th colspan="2">Mês</th>
+                  <th colspan="2">Ano</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Component</th>
+                  <th>Gross</th>
+                  <th>Net</th>
+                  <th>Gross</th>
+                  <th>Net</th>
+                  <th></th>
+                </tr>
+                <tr>
+                  <th>Base Salary</th>
+                  <th>{{ baseSalaryMonthGross | number }}</th>
+                  <th>{{ baseSalaryMonthNet | number }}</th>
+                  <th>{{ baseSalaryYearGross | number }}</th>
+                  <th>{{ baseSalaryYearNet | number }}</th>
+                  <th>{{ baseSalaryYearTotal | number }}</th>
+                </tr>
+                <tr>
+                  <th>IHT</th>
+                  <th>{{ ihtMonthGross | number }}</th>
+                  <th>{{ ihtMonthNet | number }}</th>
+                  <th>{{ ihtYearGross | number }}</th>
+                  <th>{{ ihtYearNet | number }}</th>
+                  <th>{{ ihtTotal | number }}</th>
+                </tr>
+                <tr>
+                  <th>Subs Refeicao</th>
+                  <th>{{ subsRefeicaoMonthGross | number }}</th>
+                  <th>{{ subsRefeicaoMonthNet | number }}</th>
+                  <th>{{ subsRefeicaoYearGross | number }}</th>
+                  <th>{{ subsRefeicaoYearNet | number }}</th>
+                  <th>{{ subsRefeicaoTotal | number }}</th>
+                </tr>
+              </tbody>
+            </table>
+            <!-- END IRS Calc -->
+          </div>
+        </div>
+        <!-- Total Calculator -->
+        <div class="row">
+          <div class="col-sm-12 col-md-10 col-xl-8">
+            <table class="table table">
+              <tr>
+                <th>Total</th>
+                <th>{{ totalMonthGross | number }}</th>
+                <th>{{ totalMonthNet | number }}</th>
+                <th>{{ totalYearGross | number }}</th>
+                <th>{{ totalYearNet | number }}</th>
+                <th>{{ totalTotal | number }}</th>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- END Total Calculator -->
+
+        <br />
+        <h2>Extra</h2>
+        <!-- Extra Buttons -->
+        <div class="row">
+          <div class="col-xl-8 col-md-12">
+            <table class="table table">
+              <tr>
+                <th>
+                  <label>Justified Expenses:</label>
+                </th>
+                <th>
+                  <input
+                    type="text"
+                    name="carTotalValue"
+                    [(ngModel)]="justifiedExpenses"
+                    (ngModelChange)="calcs()"
+                  />
+                </th>
+              </tr>
+              <tr>
+                <th>
+                  <label>Variable:</label>
+                </th>
+                <th>
+                  <input
+                    type="text"
+                    name="carTotalValue"
+                    [(ngModel)]="variable"
+                    (ngModelChange)="calcs()"
+                  />
+                </th>
+              </tr>
+              <tr>
+                <th>
+                  <label>Bonus:</label>
+                </th>
+                <th>
+                  <input
+                    type="text"
+                    name="carTotalValue"
+                    [(ngModel)]="bonus"
+                    (ngModelChange)="calcs()"
+                  />
+                </th>
+              </tr>
+            </table>
+            <table class="table table">
+              <tr>
+                <th></th>
+                <th colspan="2">Mês</th>
+                <th colspan="2">Ano</th>
+                <th>Total</th>
+              </tr>
+              <tr>
+                <th>Component</th>
+                <th>Gross</th>
+                <th>Net</th>
+                <th>Gross</th>
+                <th>Net</th>
+                <th></th>
+              </tr>
+
+              <tr>
+                <th>Justified Expenses</th>
+                <th>{{ justifiedExpensesMonthGross | number }}</th>
+                <th>{{ justifiedExpensesMonthNet | number }}</th>
+                <th>{{ justifiedExpensesYearGross | number }}</th>
+                <th>{{ justifiedExpensesYearNet | number }}</th>
+                <th>{{ justifiedExpensesTotal | number }}</th>
+              </tr>
+              <tr>
+                <th>Variable</th>
+                <th>{{ variableMonthGross | number }}</th>
+                <th>{{ variableMonthNet | number }}</th>
+                <th>{{ variableYearGross | number }}</th>
+                <th>{{ variableYearNet | number }}</th>
+                <th>{{ variableTotal | number }}</th>
+              </tr>
+              <tr>
+                <th>Bonus</th>
+                <th>{{ bonusMonthGross | number }}</th>
+                <th>{{ bonusMonthNet | number }}</th>
+                <th>{{ bonusYearGross | number }}</th>
+                <th>{{ bonusYearNet | number }}</th>
+                <th>{{ bonusTotal | number }}</th>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <h2>Car</h2>
+        <!-- Car Buttons -->
+        <div class="row">
+          <div class="col-xl-8 col-md-12">
+            <table class="table table">
+              <tr>
+                <th>
+                  <label>Car Type: </label>
+                </th>
+                <th>
+                  <input
+                    type="text"
+                    name="carType"
+                    [(ngModel)]="carType"
+                    (ngModelChange)="calcs()"
+                  />
+                  <br />
+                  (0=normal 1=plugin)
+                </th>
+                <th>
+                  <label>TTA:</label>
+                </th>
+                <th>
+                  <p>{{ tta | percent: "1.2" }}</p>
+                </th>
+              </tr>
+              <tr>
+                <th>
+                  <label>Car Total Value:</label>
+                </th>
+                <th>
+                  <input
+                    type="text"
+                    name="carTotalValue"
+                    [(ngModel)]="carTotalValue"
+                    (ngModelChange)="calcs()"
+                  />
+                </th>
+              </tr>
+
+              <tr>
+                <th>
+                  <label>Car Expenses:</label>
+                </th>
+                <th>
+                  <input
+                    type="text"
+                    name="carTotalValue"
+                    [(ngModel)]="carExpenses"
+                    (ngModelChange)="calcs()"
+                  />
+                </th>
+              </tr>
+              <tr>
+                <th>
+                  <label>Car Fuel:</label>
+                </th>
+                <th>
+                  <input
+                    type="text"
+                    name="carTotalValue"
+                    [(ngModel)]="carFuel"
+                    (ngModelChange)="calcs()"
+                  />
+                </th>
+              </tr>
+            </table>
+          </div>
+          <!-- END Car Buttons -->
+
+          <!-- Car Calculator -->
+          <div class="col-2"></div>
+          <div class="col-8">
+            <table class="table">
+              <tr>
+                <th></th>
+                <th colspan="2">Mês</th>
+                <th colspan="2">Ano</th>
+                <th>Total</th>
+              </tr>
+              <tr>
+                <th></th>
+                <th>Gross</th>
+                <th>Net</th>
+                <th>Gross</th>
+                <th>Net</th>
+                <th></th>
+              </tr>
+              <tr>
+                <th>Car</th>
+                <th>{{ carMonthGross | number }}</th>
+                <th>{{ carMonthNet | number }}</th>
+                <th>{{ carYearGross | number }}</th>
+                <th>{{ carYearNet | number }}</th>
+                <th>{{ carTotal | number }}</th>
+              </tr>
+              <tr>
+                <th>Car Expenses</th>
+                <th>{{ carExpensesMonthGross | number }}</th>
+                <th>{{ carExpensesMonthNet | number }}</th>
+                <th>{{ carExpensesYearGross | number }}</th>
+                <th>{{ carExpensesYearNet | number }}</th>
+                <th>{{ carExpensesTotal | number }}</th>
+              </tr>
+              <tr>
+                <th>Car Fuel</th>
+                <th>{{ carFuelMonthGross | number }}</th>
+                <th>{{ carFuelMonthNet | number }}</th>
+                <th>{{ carFuelYearGross | number }}</th>
+                <th>{{ carFuelYearNet | number }}</th>
+                <th>{{ carFuelTotal | number }}</th>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <!-- END Car Calculator -->
+
+        <!-- Total Calculator -->
+        <div class="row">
+          <div class="col-sm-12 col-md-10 col-xl-8">
+            <table class="table table">
+              <tr>
+                <th>Total</th>
+                <th>{{ totalMonthGross | number }}</th>
+                <th>{{ totalMonthNet | number }}</th>
+                <th>{{ totalYearGross | number }}</th>
+                <th>{{ totalYearNet | number }}</th>
+                <th>{{ totalTotal | number }}</th>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- END Total Calculator -->
+
+        <!-- Extras Tables -->
+
+        <h2>Extras Tables Simulator</h2>
+        <div class="row">
+          <div class="col-sm-12 col-md-10 col-xl-8">
+            <table class="table table">
+              <tr>
+                <th>
+                  <label>Extra Tax:</label>
+                </th>
+                <th>
+                  <input
+                    type="text"
+                    name="extraTax"
+                    [(ngModel)]="extraTax"
+                    (ngModelChange)="calcs()"
+                  />
+                </th>
+                <th>
+                  <label>Extra Tax €:</label>
+                </th>
+                <th>
+                  <input
+                    type="text"
+                    name="extraTax"
+                    [(ngModel)]="extraTaxEuros"
+                    (ngModelChange)="calcs()"
+                  />
+                </th>
+              </tr>
+            </table>
+            <table class="table table">
+              <tr>
+                <th>
+                  <label>Number of Months:</label>
+                </th>
+                <th>
+                  <input
+                    type="text"
+                    name="numberOfMonths"
+                    [(ngModel)]="numberOfMonths"
+                    (ngModelChange)="calcs()"
+                  />
+                </th>
+              </tr>
+              <tr>
+                <th>
+                  <label>Number of Days/Month:</label>
+                </th>
+                <th>
+                  <input
+                    type="text"
+                    name="numberOfDaysMonth"
+                    [(ngModel)]="numberOfDaysMonth"
+                    (ngModelChange)="calcs()"
+                  />
+                </th>
+              </tr>
+              <tr>
+                <th>
+                  <label>Target Margin:</label>
+                </th>
+                <th>
+                  <input
+                    type="text"
+                    name="targetMargin"
+                    [(ngModel)]="targetMargin"
+                    (ngModelChange)="calcs()"
+                  />
+                </th>
+              </tr>
+            </table>
+          </div>
+          <div class="col-2"></div>
+
+          <!-- Extras Tables Calculator -->
+
+          <div class="col-8">
+            <h6>Tax Table</h6>
+
+            <table class="table">
+              <tr>
+                <th>Total Net After Extra Tax with Bonus</th>
+                <th>{{ totalMonthNetAfterExtraTaxWithBonus | number }}</th>
+                <th>{{ totalYearNetAfterExtraTaxWithBonus | number }}</th>
+              </tr>
+              <tr>
+                <th>Total Net After Extra Tax without Bonus</th>
+                <th>{{ totalMonthNetAfterExtraTaxWithoutBonus | number }}</th>
+                <th>{{ totalYearNetAfterExtraTaxWithoutBonus | number }}</th>
+              </tr>
+            </table>
+
+            <h6>Employee Table</h6>
+
+            <table class="table">
+              <tr>
+                <th>Employee IRS</th>
+                <th>
+                  {{ employeeIrsEuros | number }}
+                </th>
+              </tr>
+              <tr>
+                <th>Employee Social Security</th>
+                <th>
+                  {{ employeeSocialSecurityEuros | number }}
+                </th>
+              </tr>
+              <tr>
+                <th>Extra Tax €</th>
+                <th>
+                  {{ extraTaxEuros | number }}
+                </th>
+              </tr>
+            </table>
+
+            <h6>Bonus</h6>
+
+            <table class="table">
+              <tr>
+                <th></th>
+                <th>With Bonus</th>
+                <th>Without Bonus</th>
+              </tr>
+              <tr>
+                <th>Cost / Month</th>
+                <th>{{ costMonthWithBonus | number }}</th>
+                <th>{{ costMonthWithoutBonus | number }}</th>
+              </tr>
+
+              <tr>
+                <th>Cost / Day</th>
+                <th>
+                  {{ costDayWithBonus | number }}
+                </th>
+                <th>
+                  {{ costDayWithoutBonus | number }}
+                </th>
+              </tr>
+
+              <tr>
+                <th>Month Target Margin</th>
+                <th>
+                  {{ monthTargetMarginWithBonus | number }}
+                </th>
+
+                <th>
+                  {{ monthTargetMarginWithoutBonus | number }}
+                </th>
+              </tr>
+              <tr>
+                <th>Day Target Margin</th>
+                <th>
+                  {{ dayTargetMarginWithBonus | number }}
+                </th>
+
+                <th>
+                  {{ dayTargetMarginWithoutBonus | number }}
+                </th>
+              </tr>
+            </table>
+
+            <h6>Proposed Bonus</h6>
+
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Proposed Daily Rate</th>
+                  <th>
+                    <input
+                      type="text"
+                      name="targetMargin"
+                      [(ngModel)]="proposedDailyRate"
+                      (ngModelChange)="calcs()"
+                    />
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Margin with Bonus</th>
+                  <th>
+                    {{ marginWithBonus | percent: "1.2" }}
+                  </th>
+                </tr>
+                <tr>
+                  <th>Proposed Hour Rate</th>
+                  <th>
+                    {{ proposedHourRate | number }}
+                  </th>
+
+                  <th>Margin without Bonus</th>
+                  <th>
+                    {{ marginWithoutBonus | percent: "1.2" }}
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- END Extras Tables -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <button
+    type="button"
+    class="btn btn-info"
+    (click)="this.saveIrsUser(); this.saveIrsSimulation()"
+  >
+    Guardar
+  </button>
+</div>
